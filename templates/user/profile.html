@@ -8,6 +8,9 @@
             {% if request.user.avatar %}
             <div class="mb-2 text-center"><img class="rounded-circle" src="{{request.user.avatar.url}}" width="220" height="220"></div>
             {% endif %}
+            {% if request.user.is_superuser %}
+            <li class="list-group-item bg-danger text-center text-light"><b>Moderatör</b></li>
+            {% endif %}
             <li class="list-group-item text-center"><b>Kullanıcı adı:</b> {{request.user.username}}</li>
             <li class="list-group-item text-center"><b>Ad:</b> {{request.user.first_name}}</li>
             <li class="list-group-item text-center"><b>Soyad:</b> {{request.user.last_name}}</li>

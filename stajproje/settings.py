@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'post',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +78,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'stajproje.wsgi.application'
+ASGI_APPLICATION = 'stajproje.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 
 # Database

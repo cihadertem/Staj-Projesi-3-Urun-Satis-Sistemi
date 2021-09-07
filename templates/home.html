@@ -1,6 +1,63 @@
 {% extends 'base.html' %}
 {% block body %}
 
-Burası Home
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            {% for post in posts %}
+            <div class="row p-2 bg-white border rounded">
+                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="{{ post.post_image.url }}"></div>
+                <div class="col-md-6 mt-1">
+                    <h1>{{ post.title }}</h1>
+                    <div class="d-flex flex-row">
+                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>{{post.category.parent}}/{{post.category}}</span>
+                    </div>
+                    <div class="mt-1 mb-1 spec-1"><span>{{post.description|truncatechars:150}}</span></div>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h4 class="mr-1">{{post.price}}₺</h4>
+                    </div>
+                    {% if post.kargo == 0 %}
+                    <h6 class="text-success">Ücretsiz Kargo</h6>
+                    {% else %}
+                    <h6 class="text-secondary">Kargo Ücreti: {{post.kargo}}₺</h6>
+                    {% endif %}
+                    {% if post.stok < 20 %}
+                        {% if post.stok == 0 %}
+                        <h6 class="text-danger"> Stoklar Tükendi!</h6>
+                        {% else %}
+                        <h6 class="text-danger">Son {{post.stok}} Stok Kaldı!</h6>
+                        {% endif %}
+                    {% endif %}
+                    <div class="d-flex flex-column mt-4"><a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm" type="button">Ürün Detayları</a><button class="btn btn-outline-primary btn-sm mt-2" type="button">Sepete Ekle</button></div>
+                </div>
+            </div>
+            {% endfor %}
+                <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3"
+                <div class="pagination">
+                <span class="step-links">
+                    {% if posts.has_previous %}
+                        <a href="?page=1">&laquo; İlk sayfaya git</a>
+                        <a href="?page={{ posts.previous_page_number }}">Önceki</a>
+                    {% endif %}
 
+                    <span class="current">
+                        {{ posts.number }}/{{ posts.paginator.num_pages }}. Sayfa
+                    </span>
+
+                    {% if posts.has_next %}
+                        <a  href="?page={{ posts.next_page_number }}">Sonraki</a>
+                        <a href="?page={{ posts.paginator.num_pages }}">En son &raquo;</a>
+                    {% endif %}
+                </span>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

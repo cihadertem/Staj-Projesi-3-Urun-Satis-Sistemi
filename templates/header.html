@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+    <!--<a class="navbar-brand" href="{% url 'home' %}">Navbar</a>--!>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,10 +9,14 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Ana sayfa</a>
         </li>
+
         {% if request.user.is_authenticated %}
+         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'user:profile' %}"><img class="rounded-circle text-center" src="{{request.user.avatar.url}}" width="30" height="30" ></a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{request.user.username}}
+            {{request.user.username.capitalize}}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{% url 'user:profile' %}">Profil</a></li>
@@ -20,6 +24,11 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'user:logout' %}">Çıkış Yap</a></li>
           </ul>
+          {% if request.user.is_superuser %}
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'post:create' %}">Ürün Ekle</a>
+        </li>
+          {% endif %}
         </li>
         {% else %}
         <li class="nav-item">
@@ -30,11 +39,12 @@
         </li>
         {% endif %}
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'post:category' %}">Kategoriler</a>
         </li>
+
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="text" name="q" placeholder="Arama yap..." value="{{ request.GET.q }}">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>

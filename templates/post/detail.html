@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+{% block body %}
+<div class="container">
+<div class="row">
+    <div class="col-lg-4 align-self-stretch">
+    <img class="shadow mt-3 img-fluid" src="{{post.post_image.url}}">
+        <h1 class="mt-3"><b>{{post.title}}</b></h1>
+        <h1 class="">{{post.price}} ₺</h1>
+        {% if post.kargo == 0 %}
+            {% if request.user.is_authenticated %}
+                <p class="text-success"> <a href="#" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> <B>Ücretsiz Kargo</b></p>
+            {% else %}
+                <p class="text-success">Ücretsiz Kargo</p>
+            {% endif %}
+        {% else %}
+            <p class="text-secondary"><a href="#" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> Kargo Ücreti: {{post.kargo}}₺ </p>
+        {% endif %}
+        {% if request.user.is_superuser %}
+        <p class="mt-3">Moderatör Araçları:</p> <p><a href="{{post.id}}/update" class="btn btn-danger btn-sm" type="button">Ürünü Düzenle</a> <a href="{{post.id}}/delete" class="btn btn-danger btn-sm" type="button">Ürünü Sil</a></p>
+        {% endif %}
+        {% if post.stok < 20 %}
+        {% if post.stok == 0 %}
+            <h6 class="text-danger mt-3"> Stoklar Tükendi!</h6>
+        {% else %}
+            <h6 class="text-danger mt-3">Son {{post.stok}} Stok Kaldı!</h6>
+        {% endif %}
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <h3>Yorum Yaz:</h3>
+        {% include 'post/comment.html' %}
+        {% endif %}
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-6">
+
+        <ul class="list-group mt-3">
+            <li class="list-group-item text-center"><small><b>Ürün açıklaması:<br></b> {{post.description|linebreaks}}</small></li>
+        </ul>
+        <div>
+            <div class=" mt-2">
+                <h3>Ürün Yorumları:</h3>
+                {% for comment in post.comments.all %}
+                <li class="list-group-item bg-dark"><a href="{% url 'user:userprofile' comment.yazar %}"><img class="rounded-circle text-center" src="{{ comment.yazar.avatar.url}}" width="30" height="30"></a><a class="link-light" href="{% url 'user:userprofile' comment.yazar %}"> {{comment.yazar}}</a> </b>| <small class="text-light">{{comment.created_time|timesince}} önce</small></p></li>
+                <li class="list-group-item">{{comment.text}}</li>
+                <hr>
+        {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

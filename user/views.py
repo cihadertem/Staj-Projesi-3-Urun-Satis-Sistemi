@@ -51,4 +51,8 @@ def logout_view(request):
         raise Http404()
     logout(request)
     return redirect('home')
+
+def user_profile_view(request,username):
+    user=get_object_or_404(CustomUser,username=username)
+    return render(request, 'user/userprofile.html', {'user': user})
 # Create your views here.
