@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'post',
-    'order',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -72,11 +72,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #'cart.context_processor.cart_total_amount',
             ],
         },
     },
 ]
 
+CART_SESSION_ID = 'cart'
 WSGI_APPLICATION = 'stajproje.wsgi.application'
 ASGI_APPLICATION = 'stajproje.asgi.application'
 CHANNEL_LAYERS = {

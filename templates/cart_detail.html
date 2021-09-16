@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-8">
+            <div class="p-2">
+                <h4>Sepetim:</h4>
+            </div>
+            {% if request.session.cart.items|length == 0 %}
+            <p class="p-2">Sepetiniz şu an boş... Alışveriş yapmak için <a href="{% url 'home'%}">Anasayfa'ya</a> gidin. :)</p>
+            {% endif %}
+            {% for key,value in request.session.cart.items %}
+            <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                <div class="mr-1"><img class="rounded" src="{{value.image}}" width="70"></div>
+                <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold">{{value.name}}</span>
+                </div>
+                <div class="d-flex flex-row align-items-center qty"><i class="fa fa-minus text-danger"></i>
+                    <h5 class="text-grey mt-1 mr-1 ml-1">Adet: {{value.quantity}}</h5><i class="fa fa-plus text-success"></i>
+                </div>
+                <div>
+                    <h5 class="text-grey">{% widthratio value.price 1 value.quantity %}₺</h5>
+                </div>
+                <div class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></div>
+                <div>
+                    <a class="link-success" href="{% url 'cart:item_increment' value.post_id %}"><button class="btn btn-dark">↑</button></a>
+                     <a class="link-danger" href="{% url 'cart:item_decrement' value.post_id %}"><button class="btn btn-secondary">↓</button></a>
+                    <a class="link-danger" href="{% url 'cart:item_clear' value.post_id %}"><button class="btn btn-danger">X</button></a>
+                </div>
+            </div>
+
+            {% endfor %}
+            <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><a href="{% url 'cart:cart_clear'%}"><button class="btn btn-success btn-block btn-lg pay-button" type="button">Sepeti Onayla</button></a><p class="mr-2">&nbsp&nbsp&nbsp</p><a href="{% url 'cart:cart_clear'%}"><button class="btn btn-danger btn-block btn-lg ml-3 pay-button" type="button">Sepeti Temizle</button></a></div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

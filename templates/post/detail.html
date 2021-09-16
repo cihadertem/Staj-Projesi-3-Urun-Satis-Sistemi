@@ -8,13 +8,9 @@
         <h1 class="mt-3"><b>{{post.title}}</b></h1>
         <h1 class="">{{post.price}} ₺</h1>
         {% if post.kargo == 0 %}
-            {% if request.user.is_authenticated %}
-                <p class="text-success"> <a href="#" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> <B>Ücretsiz Kargo</b></p>
-            {% else %}
-                <p class="text-success">Ücretsiz Kargo</p>
-            {% endif %}
+                <p class="text-success"> <a href="{% url 'cart:cartadd' post.id %}" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> <B>Ücretsiz Kargo</b></p>
         {% else %}
-            <p class="text-secondary"><a href="#" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> Kargo Ücreti: {{post.kargo}}₺ </p>
+            <p class="text-secondary"><a href="{% url 'cart:cartadd' post.id %}" class="btn btn-success btn-sm" type="button">Sepete Ekle</a> Kargo Ücreti: {{post.kargo}}₺ </p>
         {% endif %}
         {% if request.user.is_superuser %}
         <p class="mt-3">Moderatör Araçları:</p> <p><a href="{{post.id}}/update" class="btn btn-danger btn-sm" type="button">Ürünü Düzenle</a> <a href="{{post.id}}/delete" class="btn btn-danger btn-sm" type="button">Ürünü Sil</a></p>
@@ -48,6 +44,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </div>
 {% endblock %}

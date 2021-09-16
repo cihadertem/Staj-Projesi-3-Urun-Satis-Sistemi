@@ -49,8 +49,9 @@ def login_view(request):
 def logout_view(request):
     if not request.user.is_authenticated:
         raise Http404()
+    url = request.META.get('HTTP_REFERER')
     logout(request)
-    return redirect('home')
+    return redirect(url)
 
 def user_profile_view(request,username):
     user=get_object_or_404(CustomUser,username=username)

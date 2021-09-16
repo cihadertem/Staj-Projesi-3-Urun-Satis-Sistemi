@@ -30,7 +30,7 @@
                         <h6 class="text-danger">Son {{post.stok}} Stok Kaldı!</h6>
                         {% endif %}
                     {% endif %}
-                    <div class="d-flex flex-column mt-4"><a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm" type="button">Ürün Detayları</a><button class="btn btn-outline-primary btn-sm mt-2" type="button">Sepete Ekle</button></div>
+                    <div class="d-flex flex-column mt-4"><a href="{{ post.get_absolute_url }}" class="btn btn-secondary btn-sm" type="button">Ürün Detayları</a><a href="{% url 'cart:cartadd' post.id %}" class="btn btn-success btn-sm mt-2" type="button">Sepete Ekle</a></div>
                 </div>
             </div>
             {% endfor %}
